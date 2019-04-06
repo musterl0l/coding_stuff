@@ -1,0 +1,188 @@
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "# Exercise Sheet 3: Neural Networks 2"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "import numpy as np\n",
+    "import time\n",
+    "from matplotlib import pyplot as plt\n",
+    "\n",
+    "def logistic(h,a=1):\n",
+    "    return 1/(1+np.exp(-a*h))\n",
+    "dlogistic=lambda x: logistic(x)-np.power(logistic(x),2)\n",
+    "signtrafunc=lambda x: (np.sign(x)+1)/2\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "import Exercise3helper as helper"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Task 1 Lateral Inhibition  (4  points - programming)\n",
+    "Build a network layer representing the simple lateral inhibition we have faced in lecture 2. This involves only a direct neighbour supression. It represents a not fully-connected MLP layer. The layer should be 10 neurons wide.\n",
+    "Set the bias to $b=0$ and the neighbour weights to $w=-0.25$. Later, repeat the simulation with $w=-0.5$.\n",
+    "\n",
+    "As inputs, use a random vector of 0 and 1 (np.random.randi).\n",
+    "\n",
+    "First solve the task with the logistic transfer function. Then use the sign-based transfer function and examine the results with plots."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Task 2 Lateral Inhibition: trained (2 points - programming)\n",
+    "Use the output of the lateral inhibition layer as a target output for an MLP with 1 layers of 10 neurons.\n",
+    "Try out both tranfer functions for the lateral inhibition layer (target) but only the logistic for training the MLP. Use $w=-0.25$ for the inhibition.\n",
+    "\n",
+    "Determine a number of iterations that you decide to be enough for the network to have converged.\n",
+    "\n",
+    "Measure the execution time by using the python module time and time.time() to get the current time. Also, investigate the weights after initialization and after the last iteration.\n",
+    "\n",
+    "If you haven't solved task 1, you can use the class *LateralInhibitionLayer(NodeNo,Neighbourweight,bias=0,trafunc=logistic)* from the Exercise3Helper with the method LateralInhibitionLayer.out(x) as the target function."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Task 3 1D-Convolutional NN layer (5 points - programming)\n",
+    "Build a 1-dimensional convolutional neural layer that can be trained with gradient descent and included as a layer into the MLP class from sheet 2.\n",
+    "\n",
+    "To this extent, you combine the classes of single neurons and MLP layers into one that has one set of weights and a bias for the whole layer.\n",
+    "\n",
+    "In the out function, it performs a convolution ($*$) of the input with the weights \n",
+    "(np.convolve(x,w,mode='same')), subtracts the bias and calculates the transferfunction of the result: $\\mathbf{y}=f(\\mathbf{w} * \\mathbf{x} - b)=f(\\mathbf{h})$.\n",
+    "\n",
+    "The derivative of this is needed for the gradient descent training of the weights and the bias. For the single weights in an output layer, it becomes: $\\frac{d{\\mathbf{y}}}{dw_i}=\\frac{df({\\mathbf{h}})}{d\\mathbf{h}} \\frac{d\\mathbf{h}}{d\\mathbf{x}}=f'({\\mathbf{h}}) \\odot  e_i * x$. Introducing $\\mathbf{d}_i:= \\mathbf{e}_i *\\mathbf{x}$, we can reach a squite simple formula for the weight updates. $\\mathbf{e}_i$ is the unit vector, where entry $i$ is 1 and all others are 0.\n",
+    "\n",
+    "This leads to the following weight and bias update rules, implemented in a *train(deltanext, weightsnext,...)* fuction similar to the perceptron:\n",
+    "\n",
+    "$w_i(t+1)=w_i(t)-\\eta \\sum_k (y_k-o_k) f'(h_k)  (\\mathbf{d}_i)_{(k)}$\n",
+    "\n",
+    "$b(t+1)=b(t)+\\eta \\sum_k (y_k-o_k) f'(h_k)$.\n",
+    "\n",
+    "$(\\mathbf{d}_i)_{(k)}$ is the $k$th element of $\\mathbf{d}_i$.\n",
+    "\n",
+    "If we use a local error gradient $\\delta_{l}$ for the CNN layer l $\\delta_{l} = f'(\\mathbf{h}_l) \\mathbf{W}_{l+1} \\delta_{l+1}$ equivalent to that of a perceptron (lecture 2 slide 47), the columns i of the weightsnext matrix $\\mathbf{W}_l$ for the layer before can be written as $[\\mathbf{W}_l]_{(i)}=\\mathbf{e}_i*\\mathbf{w}$. To make it simpler, the weightsnext W returned by train are:\n",
+    "\n",
+    "*WE=np.eye(len(self.lastin))*\n",
+    "\n",
+    "*W=np.array([np.convolve(we,self.w,mode='same') for we in WE])*.\n",
+    "\n",
+    "The weight update rule for any CNN layer l become:\n",
+    "\n",
+    "$w_i(t+1)=w_i(t)-\\eta \\sum_k [\\delta_{l+1}]_{(k)} [\\mathbf{W}_{l+1}]_{(k)} f'(h_k)  (\\mathbf{d}_i)_{(k)}$\n",
+    "\n",
+    "$b(t+1)=b(t)+\\eta \\sum_k [\\delta_{l+1}]_{(k)} [\\mathbf{W}_{l+1}]_{(k)}  f'(h_k)$.\n",
+    "\n",
+    "Note that $\\mathbf{y}$,$\\mathbf{h}_i$, $\\mathbf{w}_k$, and $\\delta_l$ have all the same dimensionality as the input $\\mathbf{x}$."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Task 4 Training a 1D-Convolutional NN on lateral inhibition (2 points - programming)\n",
+    "\n",
+    "Use the output of the lateral inhibition layer as a target output for a CNN consisting of 1 layer with 10 neurons. You can simnply abuse the MLP class and assign a single layer using the CNNlayer class. Use $w=-0.25$ for the inhibition.\n",
+    "\n",
+    "Measure and compare the execution time to the one of the MLP trained on the same problem (Task 3) by using the python module time and time.time() to get the current time.  Use the same number of intializations. Also, investigate the weights after initialization and after the last iteration.\n",
+    "\n",
+    "If you haven't solved task 1, you can use the class *LateralInhibitionLayer(NodeNo,Neighbourweight,bias=0,trafunc=logistic)* from the Exercise3Helper with the method LateralInhibitionLayer.out(x) as the target function. Similarly, if you haven't solved task 3, you can use the class *CNNlayer(Filterwidth, weightinit=np.random.randn, biasinit=np.random.randn, trafunc=logistic, dtrafunc=dlogistic)* of the helper for the layer.\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Task 5 Local Oscilations (2 points - programming)\n",
+    "Rewrite the neuron class below to receive a neuron with local feedback capable of oscillations. This will be a very simple example to demonstrate oscillations, biologically not very plausible as we e.g. don't include the refactory period.\n",
+    "\n",
+    "To this extent, you need to save and feedback the last output in a certrain time interval. No training or delta functions are necessary. The output function becomes:\n",
+    "$y(t)=y(w\\cdot x(t)+w_\\tau y(t-\\tau)-b$\n",
+    "\n",
+    "Initialize a regular perceptron and a local feedback neuron with the same weights and feed them the same random inputs for 200 iterations. The input should be of shape (2,), randomly distributed with an average of 0.5 and a standard deviation of 0.2.\n",
+    "Repeat the 200 iterations each with every possible combination of the following parameters: $\\tau=\\{10,5\\}$ and $w_\\tau=\\{10,5,1,-1,-5,-10\\}$.\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "w_taus=[10,5,1,-1,-5,-10]\n",
+    "taus=[10,5]\n"
+   ]
+  }
+ ],
+ "metadata": {
+  "anaconda-cloud": {},
+  "kernelspec": {
+   "display_name": "Python 3",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.6.5"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 1
+}

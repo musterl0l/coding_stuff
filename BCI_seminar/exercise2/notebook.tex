@@ -1,0 +1,839 @@
+
+% Default to the notebook output style
+
+    
+
+
+% Inherit from the specified cell style.
+
+
+
+
+    
+\documentclass[11pt]{article}
+
+    
+    
+    \usepackage[T1]{fontenc}
+    % Nicer default font (+ math font) than Computer Modern for most use cases
+    \usepackage{mathpazo}
+
+    % Basic figure setup, for now with no caption control since it's done
+    % automatically by Pandoc (which extracts ![](path) syntax from Markdown).
+    \usepackage{graphicx}
+    % We will generate all images so they have a width \maxwidth. This means
+    % that they will get their normal width if they fit onto the page, but
+    % are scaled down if they would overflow the margins.
+    \makeatletter
+    \def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth
+    \else\Gin@nat@width\fi}
+    \makeatother
+    \let\Oldincludegraphics\includegraphics
+    % Set max figure width to be 80% of text width, for now hardcoded.
+    \renewcommand{\includegraphics}[1]{\Oldincludegraphics[width=.8\maxwidth]{#1}}
+    % Ensure that by default, figures have no caption (until we provide a
+    % proper Figure object with a Caption API and a way to capture that
+    % in the conversion process - todo).
+    \usepackage{caption}
+    \DeclareCaptionLabelFormat{nolabel}{}
+    \captionsetup{labelformat=nolabel}
+
+    \usepackage{adjustbox} % Used to constrain images to a maximum size 
+    \usepackage{xcolor} % Allow colors to be defined
+    \usepackage{enumerate} % Needed for markdown enumerations to work
+    \usepackage{geometry} % Used to adjust the document margins
+    \usepackage{amsmath} % Equations
+    \usepackage{amssymb} % Equations
+    \usepackage{textcomp} % defines textquotesingle
+    % Hack from http://tex.stackexchange.com/a/47451/13684:
+    \AtBeginDocument{%
+        \def\PYZsq{\textquotesingle}% Upright quotes in Pygmentized code
+    }
+    \usepackage{upquote} % Upright quotes for verbatim code
+    \usepackage{eurosym} % defines \euro
+    \usepackage[mathletters]{ucs} % Extended unicode (utf-8) support
+    \usepackage[utf8x]{inputenc} % Allow utf-8 characters in the tex document
+    \usepackage{fancyvrb} % verbatim replacement that allows latex
+    \usepackage{grffile} % extends the file name processing of package graphics 
+                         % to support a larger range 
+    % The hyperref package gives us a pdf with properly built
+    % internal navigation ('pdf bookmarks' for the table of contents,
+    % internal cross-reference links, web links for URLs, etc.)
+    \usepackage{hyperref}
+    \usepackage{longtable} % longtable support required by pandoc >1.10
+    \usepackage{booktabs}  % table support for pandoc > 1.12.2
+    \usepackage[inline]{enumitem} % IRkernel/repr support (it uses the enumerate* environment)
+    \usepackage[normalem]{ulem} % ulem is needed to support strikethroughs (\sout)
+                                % normalem makes italics be italics, not underlines
+    
+
+    
+    
+    % Colors for the hyperref package
+    \definecolor{urlcolor}{rgb}{0,.145,.698}
+    \definecolor{linkcolor}{rgb}{.71,0.21,0.01}
+    \definecolor{citecolor}{rgb}{.12,.54,.11}
+
+    % ANSI colors
+    \definecolor{ansi-black}{HTML}{3E424D}
+    \definecolor{ansi-black-intense}{HTML}{282C36}
+    \definecolor{ansi-red}{HTML}{E75C58}
+    \definecolor{ansi-red-intense}{HTML}{B22B31}
+    \definecolor{ansi-green}{HTML}{00A250}
+    \definecolor{ansi-green-intense}{HTML}{007427}
+    \definecolor{ansi-yellow}{HTML}{DDB62B}
+    \definecolor{ansi-yellow-intense}{HTML}{B27D12}
+    \definecolor{ansi-blue}{HTML}{208FFB}
+    \definecolor{ansi-blue-intense}{HTML}{0065CA}
+    \definecolor{ansi-magenta}{HTML}{D160C4}
+    \definecolor{ansi-magenta-intense}{HTML}{A03196}
+    \definecolor{ansi-cyan}{HTML}{60C6C8}
+    \definecolor{ansi-cyan-intense}{HTML}{258F8F}
+    \definecolor{ansi-white}{HTML}{C5C1B4}
+    \definecolor{ansi-white-intense}{HTML}{A1A6B2}
+
+    % commands and environments needed by pandoc snippets
+    % extracted from the output of `pandoc -s`
+    \providecommand{\tightlist}{%
+      \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+    \DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+    % Add ',fontsize=\small' for more characters per line
+    \newenvironment{Shaded}{}{}
+    \newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.56,0.13,0.00}{{#1}}}
+    \newcommand{\DecValTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\FloatTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\CharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\StringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\CommentTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textit{{#1}}}}
+    \newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{{#1}}}
+    \newcommand{\AlertTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.02,0.16,0.49}{{#1}}}
+    \newcommand{\RegionMarkerTok}[1]{{#1}}
+    \newcommand{\ErrorTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\NormalTok}[1]{{#1}}
+    
+    % Additional commands for more recent versions of Pandoc
+    \newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.53,0.00,0.00}{{#1}}}
+    \newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.73,0.40,0.53}{{#1}}}
+    \newcommand{\ImportTok}[1]{{#1}}
+    \newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.73,0.13,0.13}{\textit{{#1}}}}
+    \newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\VariableTok}[1]{\textcolor[rgb]{0.10,0.09,0.49}{{#1}}}
+    \newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.40,0.40,0.40}{{#1}}}
+    \newcommand{\BuiltInTok}[1]{{#1}}
+    \newcommand{\ExtensionTok}[1]{{#1}}
+    \newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.74,0.48,0.00}{{#1}}}
+    \newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.49,0.56,0.16}{{#1}}}
+    \newcommand{\InformationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\WarningTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    
+    
+    % Define a nice break command that doesn't care if a line doesn't already
+    % exist.
+    \def\br{\hspace*{\fill} \\* }
+    % Math Jax compatability definitions
+    \def\gt{>}
+    \def\lt{<}
+    % Document parameters
+    \title{Exercise2\_Team\_C}
+    
+    
+    
+
+    % Pygments definitions
+    
+\makeatletter
+\def\PY@reset{\let\PY@it=\relax \let\PY@bf=\relax%
+    \let\PY@ul=\relax \let\PY@tc=\relax%
+    \let\PY@bc=\relax \let\PY@ff=\relax}
+\def\PY@tok#1{\csname PY@tok@#1\endcsname}
+\def\PY@toks#1+{\ifx\relax#1\empty\else%
+    \PY@tok{#1}\expandafter\PY@toks\fi}
+\def\PY@do#1{\PY@bc{\PY@tc{\PY@ul{%
+    \PY@it{\PY@bf{\PY@ff{#1}}}}}}}
+\def\PY#1#2{\PY@reset\PY@toks#1+\relax+\PY@do{#2}}
+
+\expandafter\def\csname PY@tok@w\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.73,0.73}{##1}}}
+\expandafter\def\csname PY@tok@c\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.74,0.48,0.00}{##1}}}
+\expandafter\def\csname PY@tok@k\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kt\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.69,0.00,0.25}{##1}}}
+\expandafter\def\csname PY@tok@o\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@ow\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nf\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nc\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nn\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@ne\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.82,0.25,0.23}{##1}}}
+\expandafter\def\csname PY@tok@nv\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@no\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.53,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nl\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.63,0.63,0.00}{##1}}}
+\expandafter\def\csname PY@tok@ni\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.60,0.60,0.60}{##1}}}
+\expandafter\def\csname PY@tok@na\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.49,0.56,0.16}{##1}}}
+\expandafter\def\csname PY@tok@nt\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nd\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\expandafter\def\csname PY@tok@s\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sd\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@si\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.53}{##1}}}
+\expandafter\def\csname PY@tok@se\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sr\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.53}{##1}}}
+\expandafter\def\csname PY@tok@ss\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@sx\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@m\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@gh\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@gu\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.50,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@gd\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.63,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@gi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.63,0.00}{##1}}}
+\expandafter\def\csname PY@tok@gr\endcsname{\def\PY@tc##1{\textcolor[rgb]{1.00,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@ge\endcsname{\let\PY@it=\textit}
+\expandafter\def\csname PY@tok@gs\endcsname{\let\PY@bf=\textbf}
+\expandafter\def\csname PY@tok@gp\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@go\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.53,0.53,0.53}{##1}}}
+\expandafter\def\csname PY@tok@gt\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.27,0.87}{##1}}}
+\expandafter\def\csname PY@tok@err\endcsname{\def\PY@bc##1{\setlength{\fboxsep}{0pt}\fcolorbox[rgb]{1.00,0.00,0.00}{1,1,1}{\strut ##1}}}
+\expandafter\def\csname PY@tok@kc\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kd\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kn\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kr\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@bp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@fm\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@vc\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@vg\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@vi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@vm\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@sa\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sc\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@dl\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@s2\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sh\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@s1\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@mb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mf\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mh\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@il\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mo\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@ch\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cm\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cpf\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@c1\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cs\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+
+\def\PYZbs{\char`\\}
+\def\PYZus{\char`\_}
+\def\PYZob{\char`\{}
+\def\PYZcb{\char`\}}
+\def\PYZca{\char`\^}
+\def\PYZam{\char`\&}
+\def\PYZlt{\char`\<}
+\def\PYZgt{\char`\>}
+\def\PYZsh{\char`\#}
+\def\PYZpc{\char`\%}
+\def\PYZdl{\char`\$}
+\def\PYZhy{\char`\-}
+\def\PYZsq{\char`\'}
+\def\PYZdq{\char`\"}
+\def\PYZti{\char`\~}
+% for compatibility with earlier versions
+\def\PYZat{@}
+\def\PYZlb{[}
+\def\PYZrb{]}
+\makeatother
+
+
+    % Exact colors from NB
+    \definecolor{incolor}{rgb}{0.0, 0.0, 0.5}
+    \definecolor{outcolor}{rgb}{0.545, 0.0, 0.0}
+
+
+
+    
+    % Prevent overflowing lines due to hard-to-break entities
+    \sloppy 
+    % Setup hyperref package
+    \hypersetup{
+      breaklinks=true,  % so long urls are correctly broken across lines
+      colorlinks=true,
+      urlcolor=urlcolor,
+      linkcolor=linkcolor,
+      citecolor=citecolor,
+      }
+    % Slightly bigger margins than the latex defaults
+    
+    \geometry{verbose,tmargin=1in,bmargin=1in,lmargin=1in,rmargin=1in}
+    
+    
+
+    \begin{document}
+    
+    
+    \maketitle
+    
+    
+
+    
+    \section{Exercise Sheet 2: Neural Networks
+1}\label{exercise-sheet-2-neural-networks-1}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}1}]:} \PY{k+kn}{import} \PY{n+nn}{numpy} \PY{k}{as} \PY{n+nn}{np}
+        \PY{k+kn}{from} \PY{n+nn}{matplotlib} \PY{k}{import} \PY{n}{pyplot} \PY{k}{as} \PY{n}{plt}
+        
+        \PY{k}{def} \PY{n+nf}{logistic}\PY{p}{(}\PY{n}{h}\PY{p}{,}\PY{n}{a}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{)}\PY{p}{:}
+            \PY{k}{return} \PY{l+m+mi}{1}\PY{o}{/}\PY{p}{(}\PY{l+m+mi}{1}\PY{o}{+}\PY{n}{np}\PY{o}{.}\PY{n}{exp}\PY{p}{(}\PY{o}{\PYZhy{}}\PY{n}{a}\PY{o}{*}\PY{n}{h}\PY{p}{)}\PY{p}{)}
+        \PY{k}{def} \PY{n+nf}{dlogistic}\PY{p}{(}\PY{n}{h}\PY{p}{,}\PY{n}{a}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{)}\PY{p}{:}
+            \PY{k}{return} \PY{n}{logistic}\PY{p}{(}\PY{n}{h}\PY{p}{,}\PY{n}{a}\PY{p}{)}\PY{o}{\PYZhy{}}\PY{n}{np}\PY{o}{.}\PY{n}{power}\PY{p}{(}\PY{n}{logistic}\PY{p}{(}\PY{n}{h}\PY{p}{,}\PY{n}{a}\PY{p}{)}\PY{p}{,}\PY{l+m+mi}{2}\PY{p}{)}
+        
+        \PY{n}{signtrafunc}\PY{o}{=}\PY{k}{lambda} \PY{n}{x}\PY{p}{:} \PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{sign}\PY{p}{(}\PY{n}{x}\PY{p}{)}\PY{o}{+}\PY{l+m+mi}{1}\PY{p}{)}\PY{o}{/}\PY{l+m+mi}{2}
+        
+        \PY{k}{class} \PY{n+nc}{neuron}\PY{p}{:}    
+            
+            \PY{k}{def} \PY{n+nf}{\PYZus{}\PYZus{}init\PYZus{}\PYZus{}}\PY{p}{(}\PY{n+nb+bp}{self}\PY{p}{,}\PY{n}{w}\PY{p}{,}\PY{n}{b}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{,}\PY{n}{trafunc}\PY{o}{=}\PY{n}{logistic}\PY{p}{,}\PY{n}{dtrafunc}\PY{o}{=}\PY{n}{dlogistic}\PY{p}{)}\PY{p}{:}
+                \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{w}\PY{o}{=}\PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{n}{w}\PY{p}{)}
+                \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{b}\PY{o}{=}\PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{n}{b}\PY{p}{)}
+                \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{trafunc}\PY{o}{=}\PY{n}{trafunc}
+                \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{dtrafunc}\PY{o}{=}\PY{n}{dtrafunc}
+                
+            \PY{k}{def} \PY{n+nf}{out}\PY{p}{(}\PY{n+nb+bp}{self}\PY{p}{,} \PY{n}{x}\PY{p}{)}\PY{p}{:}
+                \PY{k}{return} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{trafunc}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{dot}\PY{p}{(}\PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{w}\PY{p}{,}\PY{n}{x}\PY{p}{)}\PY{o}{\PYZhy{}}\PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{b}\PY{p}{)}    
+\end{Verbatim}
+
+
+    \subsection{Task 1: Gradient Descent on a neuron (3 points -
+programming)}\label{task-1-gradient-descent-on-a-neuron-3-points---programming}
+
+Rewrite the neuron class given and include the Gradient Descent training
+algorithm as a method. To this extent, concentrate on each neuron
+individually by giving it the delta of the neurons connected to it's
+ouptut and the corresponding weights as parameters.
+
+Also, add the derivative of the transfer function as a method and safe
+the last input \(x\), last output \(y\), last activation \(h\) and last
+delta \(\delta\) values as object attributes, whenever they are
+recalculated. The values of \(h\),\(x\),\(y\) and \(o\) are all to be
+taken as those of the current training data (= their last calculation).
+
+The forumla you need is: \(\delta_i = f'(h_i) \sum_k w_k \delta_k\),
+where i is the index of the current neuron and k is the index of the
+following neurons (connected to it's output). This formulation is needed
+to be able to use it for the Backpropagation later on. For a single
+neuron as for the last layer neurons, the delta of the following neuron
+is replaced by the error graident of the output
+\(\delta_k=\left(y-o\right)\) and the corresponding weight is \(w_k=1\)
+as every output neuron in the model has only one unscaled output. The
+train function updates the weights by the gradient descent weight update
+rule \(w(t+1)=w(t)-\eta\delta_i(t)\cdot x(t)\).
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}2}]:} \PY{k}{class} \PY{n+nc}{neuron}\PY{p}{:}    
+            
+            \PY{k}{def} \PY{n+nf}{\PYZus{}\PYZus{}init\PYZus{}\PYZus{}}\PY{p}{(}\PY{n+nb+bp}{self}\PY{p}{,}\PY{n}{w}\PY{p}{,}\PY{n}{b}\PY{p}{,}\PY{n}{trafunc}\PY{o}{=}\PY{n}{logistic}\PY{p}{,}\PY{n}{dtrafunc}\PY{o}{=} \PY{n}{dlogistic} \PY{p}{)}\PY{p}{:}
+                \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{w}\PY{o}{=}\PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{n}{w}\PY{p}{)}
+                \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{b}\PY{o}{=}\PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{n}{b}\PY{p}{)}
+                \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{trafunc}\PY{o}{=}\PY{n}{trafunc}
+                \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{dtrafunc}\PY{o}{=}\PY{n}{dtrafunc}
+            
+            \PY{k}{def} \PY{n+nf}{out}\PY{p}{(}\PY{n+nb+bp}{self}\PY{p}{,} \PY{n}{x}\PY{p}{)}\PY{p}{:}
+                \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{lastinput} \PY{o}{=} \PY{n}{x}
+                \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{lasth} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{dot}\PY{p}{(}\PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{w}\PY{p}{,}\PY{n}{x}\PY{p}{)}\PY{o}{\PYZhy{}}\PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{b}
+                \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{lastout} \PY{o}{=} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{trafunc}\PY{p}{(}\PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{lasth}\PY{p}{)}  
+                \PY{k}{return} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{lastout}
+            
+            \PY{k}{def} \PY{n+nf}{dout}\PY{p}{(}\PY{n+nb+bp}{self}\PY{p}{,} \PY{n}{x}\PY{p}{)}\PY{p}{:}
+                \PY{k}{return} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{dtrafunc}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{dot}\PY{p}{(}\PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{w}\PY{p}{,}\PY{n}{x}\PY{p}{)}\PY{o}{\PYZhy{}}\PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{b}\PY{p}{)}
+            
+            \PY{k}{def} \PY{n+nf}{delta}\PY{p}{(}\PY{n+nb+bp}{self}\PY{p}{,}\PY{n}{deltanext}\PY{p}{,}\PY{n}{weightsnext}\PY{p}{)}\PY{p}{:}   
+                \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{lastdelta} \PY{o}{=} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{dout}\PY{p}{(}\PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{lastinput}\PY{p}{)}\PY{o}{*} \PY{n}{np}\PY{o}{.}\PY{n}{dot}\PY{p}{(}\PY{n}{weightsnext}\PY{p}{,} \PY{n}{deltanext}\PY{p}{)}
+                \PY{k}{return} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{lastdelta}
+            
+            \PY{k}{def} \PY{n+nf}{train}\PY{p}{(}\PY{n+nb+bp}{self}\PY{p}{,}\PY{n}{deltanext}\PY{p}{,}\PY{n}{weightsnext}\PY{p}{,}\PY{n}{learnrate}\PY{o}{=}\PY{l+m+mf}{0.1}\PY{p}{)}\PY{p}{:}  
+                \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{w} \PY{o}{=} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{w} \PY{o}{\PYZhy{}} \PY{n}{learnrate}\PY{o}{*}\PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{delta}\PY{p}{(}\PY{n}{deltanext}\PY{p}{,} \PY{n}{weightsnext}\PY{p}{)}\PY{o}{*}\PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{lastinput}
+                \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{b} \PY{o}{=} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{b} \PY{o}{+} \PY{p}{(}\PY{n}{learnrate} \PY{o}{*} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{lastdelta}\PY{p}{)} 
+                \PY{k}{return} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{lastdelta}
+\end{Verbatim}
+
+
+    \subsection{Task 2: logical functions (2 points -
+programming)}\label{task-2-logical-functions-2-points---programming}
+
+Train a single neuron on the logical functions below for a
+two-dimensional input \(x\). Use instances of the neuron class above to
+build the equivalents to logical "or","and" and "xor"-functions and test
+them for 2-dimensional input vectors \emph{x} resembling all
+possibilities of combinations ({[}0,0{]} {[}1,0{]}, {[}0,1{]},
+{[}1,1{]}). Do 10.000 iterations and plot the evolution of the error
+(the error over the iteration number). You don't need to implement a
+stopping criterion.
+
+Set the learning rate to \(\eta=1\) and initialize the weight \(w\) and
+the bias \(b\) randomly with normal distribution (np.random.randn). Use
+the logistic function.
+
+In the next cell you find an exemplary random number generator and the
+corresponding functions you can use for sample creation in every single
+iteration. In every iteration use the random input \(x\), the neuron
+output \emph{\(y=\)neuron.out(\(x\))} and the training data
+\(o=yourlogicalfunction(x)\)
+
+If you haven't succeeded with task 1, you can import Exercise2helperPy36
+or Exercise2helperPy27 depending on your python version. The syntax of
+the conained neuron class is:
+n1=Exercise2helper.neuron(np.random.randn(2),np.random.randn(1)) for
+initialization and train(deltanext,weightsnext,learnrate=0.1) for
+training. For a single neuron as for the last layer neurons, the delta
+of the following neuron (deltanext) is replaced by the error graident of
+the output \(\delta_k=\left(y-o\right)\) and the corresponding weight is
+\(w_k=1\) as every output neuron in the model has only one unscaled
+output.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}3}]:} \PY{k+kn}{import} \PY{n+nn}{Exercise2helper36} \PY{k}{as} \PY{n+nn}{helper}
+        
+        \PY{c+c1}{\PYZsh{}for one single point}
+        \PY{n}{x}\PY{o}{=}\PY{n}{np}\PY{o}{.}\PY{n}{random}\PY{o}{.}\PY{n}{randint}\PY{p}{(}\PY{l+m+mi}{2}\PY{p}{,}\PY{n}{size}\PY{o}{=}\PY{l+m+mi}{2}\PY{p}{)}
+        \PY{n}{o}\PY{o}{=}\PY{n}{x}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]} \PY{o}{\PYZam{}} \PY{n}{x}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}
+\end{Verbatim}
+
+
+    \subsubsection{a) AND function}\label{a-and-function}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}4}]:} \PY{c+c1}{\PYZsh{}initialize}
+        
+        \PY{n}{n1} \PY{o}{=} \PY{n}{neuron}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{random}\PY{o}{.}\PY{n}{randn}\PY{p}{(}\PY{l+m+mi}{2}\PY{p}{)}\PY{p}{,} \PY{n}{np}\PY{o}{.}\PY{n}{random}\PY{o}{.}\PY{n}{randn}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{)}\PY{p}{)}
+        
+        
+        \PY{n}{y} \PY{o}{=} \PY{n}{n1}\PY{o}{.}\PY{n}{out}\PY{p}{(}\PY{n}{x}\PY{p}{)}
+        \PY{n}{o}\PY{o}{=}\PY{n}{x}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]} \PY{o}{\PYZam{}} \PY{n}{x}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}
+        \PY{n}{deltanext} \PY{o}{=} \PY{n}{y} \PY{o}{\PYZhy{}} \PY{n}{o}
+        \PY{n}{weightsnext} \PY{o}{=} \PY{l+m+mi}{1}
+        \PY{n}{n1}\PY{o}{.}\PY{n}{train}\PY{p}{(}\PY{n}{deltanext}\PY{p}{,} \PY{n}{weightsnext}\PY{p}{,} \PY{n}{learnrate}\PY{o}{=}\PY{l+m+mf}{1.0}\PY{p}{)}
+        
+        \PY{n}{it} \PY{o}{=} \PY{l+m+mi}{10000}
+        \PY{n}{error} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{zeros}\PY{p}{(}\PY{n}{it}\PY{p}{)}
+        
+        \PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n}{it}\PY{p}{)}\PY{p}{:}
+            \PY{n}{error}\PY{p}{[}\PY{n}{i}\PY{p}{]} \PY{o}{=} \PY{l+m+mi}{1}\PY{o}{/}\PY{l+m+mi}{2}\PY{o}{*}\PY{n}{np}\PY{o}{.}\PY{n}{linalg}\PY{o}{.}\PY{n}{norm}\PY{p}{(}\PY{n}{deltanext}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{)}
+            \PY{n}{x}\PY{o}{=}\PY{n}{np}\PY{o}{.}\PY{n}{random}\PY{o}{.}\PY{n}{randint}\PY{p}{(}\PY{l+m+mi}{2}\PY{p}{,}\PY{n}{size}\PY{o}{=}\PY{l+m+mi}{2}\PY{p}{)}
+            \PY{n}{o}\PY{o}{=}\PY{n}{x}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]} \PY{o}{\PYZam{}} \PY{n}{x}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}
+            \PY{n}{y} \PY{o}{=} \PY{n}{n1}\PY{o}{.}\PY{n}{out}\PY{p}{(}\PY{n}{x}\PY{p}{)}
+            
+            \PY{n}{deltanext} \PY{o}{=} \PY{n}{y} \PY{o}{\PYZhy{}} \PY{n}{o}
+            \PY{n}{weightsnext} \PY{o}{=} \PY{l+m+mi}{1}
+            \PY{n}{n1}\PY{o}{.}\PY{n}{train}\PY{p}{(}\PY{n}{deltanext}\PY{p}{,} \PY{n}{weightsnext}\PY{p}{,} \PY{n}{learnrate}\PY{o}{=}\PY{l+m+mf}{1.0}\PY{p}{)}
+            
+        \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{0, 0}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+        \PY{n+nb}{print}\PY{p}{(}\PY{n}{n1}\PY{o}{.}\PY{n}{out}\PY{p}{(}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)}\PY{p}{)}
+        \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{0, 1}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+        \PY{n+nb}{print}\PY{p}{(}\PY{n}{n1}\PY{o}{.}\PY{n}{out}\PY{p}{(}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{]}\PY{p}{)}\PY{p}{)}
+        \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{1, 0}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+        \PY{n+nb}{print}\PY{p}{(}\PY{n}{n1}\PY{o}{.}\PY{n}{out}\PY{p}{(}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)}\PY{p}{)}
+        \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{1, 1}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+        \PY{n+nb}{print}\PY{p}{(}\PY{n}{n1}\PY{o}{.}\PY{n}{out}\PY{p}{(}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{]}\PY{p}{)}\PY{p}{)}
+        
+        \PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{error}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+0, 0
+[5.81504371e-05]
+0, 1
+[0.03462839]
+1, 0
+[0.03570635]
+1, 1
+[0.95805366]
+
+    \end{Verbatim}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}4}]:} [<matplotlib.lines.Line2D at 0x7f2998d1b7b8>]
+\end{Verbatim}
+            
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_7_2.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \subsubsection{b) OR function}\label{b-or-function}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}5}]:} \PY{c+c1}{\PYZsh{}initialize}
+        \PY{n}{n1} \PY{o}{=} \PY{n}{neuron}\PY{p}{(} \PY{n}{np}\PY{o}{.}\PY{n}{random}\PY{o}{.}\PY{n}{randn}\PY{p}{(}\PY{l+m+mi}{2}\PY{p}{)}\PY{p}{,}  \PY{n}{np}\PY{o}{.}\PY{n}{random}\PY{o}{.}\PY{n}{randn}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{)}\PY{p}{)}
+        
+        
+        \PY{n}{y} \PY{o}{=} \PY{n}{n1}\PY{o}{.}\PY{n}{out}\PY{p}{(}\PY{n}{x}\PY{p}{)}
+        \PY{n}{o}\PY{o}{=}\PY{n}{x}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]} \PY{o}{|} \PY{n}{x}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}
+        \PY{n}{deltanext} \PY{o}{=} \PY{n}{y} \PY{o}{\PYZhy{}} \PY{n}{o}
+        \PY{n}{weightsnext} \PY{o}{=} \PY{l+m+mi}{1}
+        \PY{n}{n1}\PY{o}{.}\PY{n}{train}\PY{p}{(}\PY{n}{deltanext}\PY{p}{,} \PY{n}{weightsnext}\PY{p}{,} \PY{n}{learnrate}\PY{o}{=}\PY{l+m+mf}{1.0}\PY{p}{)}
+        
+        \PY{n}{it} \PY{o}{=} \PY{l+m+mi}{10000}
+        \PY{n}{error} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{zeros}\PY{p}{(}\PY{n}{it}\PY{p}{)}
+        
+        \PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n}{it}\PY{p}{)}\PY{p}{:}
+            \PY{n}{error}\PY{p}{[}\PY{n}{i}\PY{p}{]} \PY{o}{=} \PY{l+m+mi}{1}\PY{o}{/}\PY{l+m+mi}{2}\PY{o}{*}\PY{n}{np}\PY{o}{.}\PY{n}{linalg}\PY{o}{.}\PY{n}{norm}\PY{p}{(}\PY{n}{deltanext}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{)}
+            \PY{n}{x}\PY{o}{=}\PY{n}{np}\PY{o}{.}\PY{n}{random}\PY{o}{.}\PY{n}{randint}\PY{p}{(}\PY{l+m+mi}{2}\PY{p}{,}\PY{n}{size}\PY{o}{=}\PY{l+m+mi}{2}\PY{p}{)}
+            \PY{n}{o}\PY{o}{=}\PY{n}{x}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]} \PY{o}{|} \PY{n}{x}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}
+            \PY{n}{y} \PY{o}{=} \PY{n}{n1}\PY{o}{.}\PY{n}{out}\PY{p}{(}\PY{n}{x}\PY{p}{)}
+            
+            \PY{n}{deltanext} \PY{o}{=} \PY{n}{y} \PY{o}{\PYZhy{}} \PY{n}{o}
+            \PY{n}{weightsnext} \PY{o}{=} \PY{l+m+mi}{1}
+            \PY{n}{n1}\PY{o}{.}\PY{n}{train}\PY{p}{(}\PY{n}{deltanext}\PY{p}{,} \PY{n}{weightsnext}\PY{p}{,} \PY{n}{learnrate}\PY{o}{=}\PY{l+m+mf}{1.0}\PY{p}{)}
+        
+        \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{0, 0}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+        \PY{n+nb}{print}\PY{p}{(}\PY{n}{n1}\PY{o}{.}\PY{n}{out}\PY{p}{(}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)}\PY{p}{)}
+        \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{0, 1}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+        \PY{n+nb}{print}\PY{p}{(}\PY{n}{n1}\PY{o}{.}\PY{n}{out}\PY{p}{(}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{]}\PY{p}{)}\PY{p}{)}
+        \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{1, 0}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+        \PY{n+nb}{print}\PY{p}{(}\PY{n}{n1}\PY{o}{.}\PY{n}{out}\PY{p}{(}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)}\PY{p}{)}
+        \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{1, 1}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+        \PY{n+nb}{print}\PY{p}{(}\PY{n}{n1}\PY{o}{.}\PY{n}{out}\PY{p}{(}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{]}\PY{p}{)}\PY{p}{)}
+        \PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{error}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+0, 0
+[0.03317393]
+0, 1
+[0.97905381]
+1, 0
+[0.97859747]
+1, 1
+[0.99998395]
+
+    \end{Verbatim}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}5}]:} [<matplotlib.lines.Line2D at 0x7f2998c2fef0>]
+\end{Verbatim}
+            
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_9_2.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \subsubsection{c) XOR function}\label{c-xor-function}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}6}]:} \PY{c+c1}{\PYZsh{}initialize}
+        \PY{n}{n1} \PY{o}{=} \PY{n}{neuron}\PY{p}{(} \PY{n}{np}\PY{o}{.}\PY{n}{random}\PY{o}{.}\PY{n}{randn}\PY{p}{(}\PY{l+m+mi}{2}\PY{p}{)}\PY{p}{,}  \PY{n}{np}\PY{o}{.}\PY{n}{random}\PY{o}{.}\PY{n}{randn}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{)}\PY{p}{)}
+        
+        
+        \PY{n}{y} \PY{o}{=} \PY{n}{n1}\PY{o}{.}\PY{n}{out}\PY{p}{(}\PY{n}{x}\PY{p}{)}
+        \PY{n}{o}\PY{o}{=}\PY{n}{x}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]} \PY{o}{\PYZca{}} \PY{n}{x}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}
+        \PY{n}{deltanext} \PY{o}{=} \PY{n}{y} \PY{o}{\PYZhy{}} \PY{n}{o}
+        \PY{n}{weightsnext} \PY{o}{=} \PY{l+m+mi}{1}
+        \PY{n}{n1}\PY{o}{.}\PY{n}{train}\PY{p}{(}\PY{n}{deltanext}\PY{p}{,} \PY{n}{weightsnext}\PY{p}{,} \PY{n}{learnrate}\PY{o}{=}\PY{l+m+mf}{1.0}\PY{p}{)}
+        
+        \PY{n}{it} \PY{o}{=} \PY{l+m+mi}{10000}
+        \PY{n}{error} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{zeros}\PY{p}{(}\PY{n}{it}\PY{p}{)}
+        
+        \PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n}{it}\PY{p}{)}\PY{p}{:}
+            \PY{n}{error}\PY{p}{[}\PY{n}{i}\PY{p}{]} \PY{o}{=} \PY{l+m+mi}{1}\PY{o}{/}\PY{l+m+mi}{2}\PY{o}{*}\PY{n}{np}\PY{o}{.}\PY{n}{linalg}\PY{o}{.}\PY{n}{norm}\PY{p}{(}\PY{n}{deltanext}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{)}
+            \PY{n}{x}\PY{o}{=}\PY{n}{np}\PY{o}{.}\PY{n}{random}\PY{o}{.}\PY{n}{randint}\PY{p}{(}\PY{l+m+mi}{2}\PY{p}{,}\PY{n}{size}\PY{o}{=}\PY{l+m+mi}{2}\PY{p}{)}
+            \PY{n}{o}\PY{o}{=}\PY{n}{x}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]} \PY{o}{\PYZca{}} \PY{n}{x}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}
+            \PY{n}{y} \PY{o}{=} \PY{n}{n1}\PY{o}{.}\PY{n}{out}\PY{p}{(}\PY{n}{x}\PY{p}{)}
+            
+            \PY{n}{deltanext} \PY{o}{=} \PY{n}{y} \PY{o}{\PYZhy{}} \PY{n}{o}
+            \PY{n}{weightsnext} \PY{o}{=} \PY{l+m+mi}{1}
+            \PY{n}{n1}\PY{o}{.}\PY{n}{train}\PY{p}{(}\PY{n}{deltanext}\PY{p}{,} \PY{n}{weightsnext}\PY{p}{,} \PY{n}{learnrate}\PY{o}{=}\PY{l+m+mf}{1.0}\PY{p}{)}
+            
+        
+        \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{0, 0}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+        \PY{n+nb}{print}\PY{p}{(}\PY{n}{n1}\PY{o}{.}\PY{n}{out}\PY{p}{(}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)}\PY{p}{)}
+        \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{0, 1}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+        \PY{n+nb}{print}\PY{p}{(}\PY{n}{n1}\PY{o}{.}\PY{n}{out}\PY{p}{(}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{]}\PY{p}{)}\PY{p}{)}
+        \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{1, 0}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+        \PY{n+nb}{print}\PY{p}{(}\PY{n}{n1}\PY{o}{.}\PY{n}{out}\PY{p}{(}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)}\PY{p}{)}
+        \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{1, 1}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+        \PY{n+nb}{print}\PY{p}{(}\PY{n}{n1}\PY{o}{.}\PY{n}{out}\PY{p}{(}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{]}\PY{p}{)}\PY{p}{)}
+        \PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{error}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+0, 0
+[0.39373458]
+0, 1
+[0.46439025]
+1, 0
+[0.50347826]
+1, 1
+[0.57514482]
+
+    \end{Verbatim}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}6}]:} [<matplotlib.lines.Line2D at 0x7f2998c1cfd0>]
+\end{Verbatim}
+            
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_11_2.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    not converging, because one single neuron is not able to learn the XOR
+function. the minimum is two neurons.
+
+    \subsection{Task 3: MLP layer (2 points -
+programming)}\label{task-3-mlp-layer-2-points---programming}
+
+Use the class "neuron" to construct a neural layer class "MLPlayer" for
+a Multi-Layer Perceptron (MLP). It should contain a list
+"MLPlayer.nodes" which is a list of the single neurons. Also, there
+should be a method "MLPlayer.out(x)" that returns the outputs of the
+single neurons as a list for the different neurons' current weights and
+bias of the input vector "x". Initialize the weights and the biases of
+the single neurons randomly with normal distribution by default
+(np.random.randn()).
+
+Include a method "MLPlayer.train(deltanext,W,learnrate)" which iterates
+the training over the nodes by calling their "train()" method with the
+deltas of the nextlayers and the corresponding weights. W is matrix
+consisiting of the weights of of all neurons in the next layer. It
+should return the deltas and weight matrix W of the current layer.
+
+The number of outputs is equivalent to the number of nodes in the layer
+and the number of inputs corresponds with the number of weights per
+neuron. The number of neurons and the number of weights per neuron
+should be passed to the initialization method.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}7}]:} \PY{k}{class} \PY{n+nc}{MLPlayer}\PY{p}{:}
+            
+            \PY{k}{def} \PY{n+nf}{\PYZus{}\PYZus{}init\PYZus{}\PYZus{}}\PY{p}{(}\PY{n+nb+bp}{self}\PY{p}{,}\PY{n}{NodeNo}\PY{p}{,}\PY{n}{WeightNo}\PY{p}{,}\PY{n}{weightinit}\PY{o}{=}\PY{n}{np}\PY{o}{.}\PY{n}{random}\PY{o}{.}\PY{n}{randn}\PY{p}{,}\PY{n}{biasinit}\PY{o}{=}\PY{n}{np}\PY{o}{.}\PY{n}{random}\PY{o}{.}\PY{n}{randn}\PY{p}{,}\PY{n}{trafunc}\PY{o}{=}\PY{n}{logistic}\PY{p}{,}\PY{n}{dtrafunc}\PY{o}{=}\PY{n}{dlogistic}\PY{p}{)}\PY{p}{:}
+                \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{NodeNo} \PY{o}{=} \PY{n}{NodeNo}
+                \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{WeightNo} \PY{o}{=} \PY{n}{WeightNo}
+                \PY{c+c1}{\PYZsh{}weights is a matrix where all the weights for this layer are stored}
+                \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{weights} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{zeros}\PY{p}{(}\PY{p}{(}\PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{NodeNo}\PY{p}{,}\PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{WeightNo}\PY{p}{)}\PY{p}{)}
+                
+                \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{neurons} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+                \PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n}{NodeNo}\PY{p}{)}\PY{p}{:}
+                     \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{neurons}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{neuron}\PY{p}{(} \PY{n}{weightinit}\PY{p}{(}\PY{n}{WeightNo}\PY{p}{)}\PY{p}{,}  \PY{n}{biasinit}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{)}\PY{p}{,} \PY{n}{trafunc}\PY{o}{=}\PY{n}{trafunc}\PY{p}{,}\PY{n}{dtrafunc}\PY{o}{=} \PY{n}{dtrafunc}\PY{p}{)}\PY{p}{)}   
+                
+            \PY{k}{def} \PY{n+nf}{out}\PY{p}{(}\PY{n+nb+bp}{self}\PY{p}{,}\PY{n}{x}\PY{p}{)}\PY{p}{:}
+                \PY{n}{returnobj} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{zeros}\PY{p}{(}\PY{n+nb}{len}\PY{p}{(}\PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{neurons}\PY{p}{)}\PY{p}{)}
+                \PY{k}{for} \PY{n}{n} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n+nb}{len}\PY{p}{(}\PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{neurons}\PY{p}{)}\PY{p}{)}\PY{p}{:}
+                    \PY{n}{returnobj}\PY{p}{[}\PY{n}{n}\PY{p}{]} \PY{o}{=} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{neurons}\PY{p}{[}\PY{n}{n}\PY{p}{]}\PY{o}{.}\PY{n}{out}\PY{p}{(}\PY{n}{x}\PY{p}{)}
+                
+                \PY{k}{return} \PY{n}{returnobj}
+        \PY{c+c1}{\PYZsh{}         return [self.neurons[n].out(x) for n in range(len(self.neurons))]}
+            
+            \PY{k}{def} \PY{n+nf}{train}\PY{p}{(}\PY{n+nb+bp}{self}\PY{p}{,}\PY{n}{deltanext}\PY{p}{,}\PY{n}{W}\PY{p}{,}\PY{n}{learnrate}\PY{o}{=}\PY{l+m+mf}{0.1}\PY{p}{)}\PY{p}{:}        
+                \PY{c+c1}{\PYZsh{}init the arrays for storing the deltas and the weights of the layer}
+                \PY{n}{deltas} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{zeros}\PY{p}{(}\PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{NodeNo}\PY{p}{)}    
+                \PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{NodeNo}\PY{p}{)}\PY{p}{:}
+                    \PY{n}{deltas}\PY{p}{[}\PY{n}{i}\PY{p}{]} \PY{o}{=} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{neurons}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{o}{.}\PY{n}{train}\PY{p}{(}\PY{n}{deltanext}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{p}{,}\PY{n}{W}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{p}{,}\PY{n}{learnrate}\PY{o}{=} \PY{n}{learnrate}\PY{p}{)}
+                    \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{weights}\PY{p}{[}\PY{n}{i}\PY{p}{,}\PY{p}{:}\PY{p}{]} \PY{o}{=} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{neurons}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{o}{.}\PY{n}{w}
+                    
+                \PY{k}{return} \PY{n}{deltas}\PY{p}{,} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{weights}
+\end{Verbatim}
+
+
+    \subsection{Task 5: Backpropagation in MLP (7 points -
+programming)}\label{task-5-backpropagation-in-mlp-7-points---programming}
+
+Construct a class "MLP" with a list of layers of type "MLPlayer" called
+"MLP.layers" Also, there should be a method "MLP.out(x)" that returns
+the outputs of the whole network of the input vector "x".
+
+Make sure, that the size of the weight vector is bound to the number of
+inputs for the first layer and that the number of inputs for the
+following layers has to correspond with the number of neurons in the
+layer before. The number of outputs equals the number of neurons in the
+last layer.
+
+\begin{itemize}
+\item
+  The init function gets the number of inputs \emph{x} and the number of
+  nodes for each layer as a list. The number of neurons per layer and
+  the number of inputs should be passed to the initialization method.
+\item
+  Include the backpropagation training algorithm as a method
+  "MLP.train()" into the class. The passed arguments should consist of
+  the number of iteations (no stopping criteria in this case), the
+  training input and the training output - both as function pointers -
+  as well as the learning rate. It should iterate over the layers, which
+  themselves iterate over their neurons. Deltas and W will allways be
+  the input to the previous layer.
+\item
+  The function x\_train has to produce a random array of inputs of size
+  {[}NoInputs,{]} and o\_train has to produce the corresponding target
+  function output. They should work without an argument passed and the
+  target training output \(o\) should be calculated using only that
+  vector \(x\).
+\item
+  The output of the method \emph{train()} should consist of the
+  sum-of-squares error within each iteration.
+\end{itemize}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}8}]:} \PY{k}{class} \PY{n+nc}{MLP}\PY{p}{:}
+            \PY{k}{def} \PY{n+nf}{\PYZus{}\PYZus{}init\PYZus{}\PYZus{}}\PY{p}{(}\PY{n+nb+bp}{self}\PY{p}{,} \PY{n}{NoInputs}\PY{p}{,} \PY{n}{ListNoNeuronsPerLayer}\PY{p}{,} \PY{n}{weightinit}\PY{o}{=}\PY{n}{np}\PY{o}{.}\PY{n}{random}\PY{o}{.}\PY{n}{randn}\PY{p}{,}\PY{n}{biasinit}\PY{o}{=}\PY{n}{np}\PY{o}{.}\PY{n}{random}\PY{o}{.}\PY{n}{randn}\PY{p}{,}\PY{n}{trafunc}\PY{o}{=}\PY{n}{logistic}\PY{p}{,}\PY{n}{dtrafunc}\PY{o}{=}\PY{n}{dlogistic}\PY{p}{)}\PY{p}{:}
+                \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{layers} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+                \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{NoInputs} \PY{o}{=} \PY{n}{NoInputs}
+                
+                \PY{c+c1}{\PYZsh{}first layer is the input layer}
+                \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{layers}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{MLPlayer}\PY{p}{(}\PY{n}{ListNoNeuronsPerLayer}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n}{NoInputs}\PY{p}{)}\PY{p}{)}
+                
+                \PY{k}{for} \PY{n}{n} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{,} \PY{n+nb}{len}\PY{p}{(}\PY{n}{ListNoNeuronsPerLayer}\PY{p}{)}\PY{p}{)}\PY{p}{:}
+                    \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{layers}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{MLPlayer}\PY{p}{(}\PY{n}{ListNoNeuronsPerLayer}\PY{p}{[}\PY{n}{n}\PY{p}{]}\PY{p}{,} \PY{n}{ListNoNeuronsPerLayer}\PY{p}{[}\PY{n}{n}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{)}\PY{p}{)}
+                
+            \PY{k}{def} \PY{n+nf}{out}\PY{p}{(}\PY{n+nb+bp}{self}\PY{p}{,} \PY{n}{x}\PY{p}{)}\PY{p}{:}
+                \PY{c+c1}{\PYZsh{}for layer 1 the output of the previous layer is x}
+                \PY{n}{output} \PY{o}{=} \PY{n}{x}
+                
+                \PY{c+c1}{\PYZsh{}iterating over the the layers}
+                \PY{k}{for} \PY{n}{l} \PY{o+ow}{in} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{layers}\PY{p}{:}
+                    \PY{n}{output} \PY{o}{=} \PY{n}{l}\PY{o}{.}\PY{n}{out}\PY{p}{(}\PY{n}{output}\PY{p}{)}
+                \PY{k}{return} \PY{n}{output}
+            
+        
+            \PY{k}{def} \PY{n+nf}{train}\PY{p}{(}\PY{n+nb+bp}{self}\PY{p}{,} \PY{n}{iterations}\PY{p}{,} \PY{n}{x\PYZus{}in}\PY{p}{,} \PY{n}{o\PYZus{}in}\PY{p}{,} \PY{n}{learnrate}\PY{o}{=}\PY{l+m+mf}{0.1}\PY{p}{)}\PY{p}{:}        
+                \PY{n}{errors} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{zeros}\PY{p}{(}\PY{n}{iterations}\PY{p}{)}
+                \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{noIterations} \PY{o}{=} \PY{n}{iterations}
+                
+                \PY{n}{x} \PY{o}{=} \PY{n}{x\PYZus{}in}\PY{p}{(}\PY{p}{)}
+                \PY{n}{o} \PY{o}{=} \PY{n}{o\PYZus{}in}\PY{p}{(}\PY{n}{x}\PY{p}{)}
+                
+                \PY{k}{for} \PY{n}{it} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n}{iterations}\PY{p}{)}\PY{p}{:}
+                    \PY{n}{desired\PYZus{}output} \PY{o}{=} \PY{n}{o}\PY{p}{[}\PY{n}{it}\PY{p}{]}
+                    \PY{n}{actual\PYZus{}output} \PY{o}{=} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{out}\PY{p}{(}\PY{n}{x}\PY{p}{[}\PY{n}{it}\PY{p}{]}\PY{p}{)}
+                    \PY{n}{deltanext\PYZus{}last} \PY{o}{=} \PY{n}{actual\PYZus{}output} \PY{o}{\PYZhy{}} \PY{n}{desired\PYZus{}output} 
+                    \PY{n}{errors}\PY{p}{[}\PY{n}{it}\PY{p}{]} \PY{o}{=} \PY{l+m+mi}{1}\PY{o}{/}\PY{l+m+mi}{2}\PY{o}{*}\PY{n}{np}\PY{o}{.}\PY{n}{linalg}\PY{o}{.}\PY{n}{norm}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{n}{deltanext\PYZus{}last}\PY{p}{)}\PY{p}{,}\PY{l+m+mi}{2}\PY{p}{)}
+                    \PY{n}{weightsnext} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{full}\PY{p}{(}\PY{n+nb}{len}\PY{p}{(}\PY{n}{deltanext\PYZus{}last}\PY{p}{)}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{)} 
+                    \PY{n}{deltanext}\PY{p}{,} \PY{n}{W} \PY{o}{=} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{layers}\PY{p}{[}\PY{n+nb}{len}\PY{p}{(}\PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{layers}\PY{p}{)} \PY{o}{\PYZhy{}} \PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{train}\PY{p}{(}\PY{n}{deltanext\PYZus{}last}\PY{p}{,} \PY{n}{weightsnext}\PY{p}{,} \PY{n}{learnrate}\PY{o}{=}\PY{n}{learnrate}\PY{p}{)} 
+                    \PY{c+c1}{\PYZsh{}this is so that I can make it dot multiplication with weights of the next layer later on.}
+                    \PY{c+c1}{\PYZsh{} \PYZhy{}1 is because len() is inclusive, and \PYZhy{}1 is for the next layer we want to work on after this step.}
+                    \PY{n}{deltanext} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{full}\PY{p}{(}\PY{p}{(}\PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{layers}\PY{p}{[}\PY{n+nb}{len}\PY{p}{(}\PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{layers}\PY{p}{)} \PY{o}{\PYZhy{}} \PY{l+m+mi}{2}\PY{p}{]}\PY{o}{.}\PY{n}{NodeNo}\PY{p}{,} \PY{n+nb}{len}\PY{p}{(}\PY{n}{deltanext}\PY{p}{)}\PY{p}{)}\PY{p}{,} \PY{n}{deltanext}\PY{p}{)} 
+                    \PY{k}{for} \PY{n}{layer} \PY{o+ow}{in} \PY{n+nb}{reversed}\PY{p}{(}\PY{n+nb}{range}\PY{p}{(}\PY{n+nb}{len}\PY{p}{(}\PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{layers}\PY{p}{)} \PY{o}{\PYZhy{}} \PY{l+m+mi}{1}\PY{p}{)}\PY{p}{)}\PY{p}{:}
+                        \PY{c+c1}{\PYZsh{}we rotate the vector for weight, so that we can w1\PYZus{}1.delta1 . w2\PYZus{}1.delta2 for the first node }
+                        \PY{n}{deltanext}\PY{p}{,} \PY{n}{W} \PY{o}{=} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{layers}\PY{p}{[}\PY{n}{layer}\PY{p}{]}\PY{o}{.}\PY{n}{train}\PY{p}{(}\PY{n}{deltanext}\PY{p}{,} \PY{n}{W}\PY{o}{.}\PY{n}{T}\PY{p}{,} \PY{n}{learnrate}\PY{o}{=}\PY{n}{learnrate}\PY{p}{)}
+                       
+                \PY{k}{return} \PY{n}{errors}
+            
+            
+            \PY{k}{def} \PY{n+nf}{x\PYZus{}train}\PY{p}{(}\PY{n+nb+bp}{self}\PY{p}{)}\PY{p}{:}
+                \PY{c+c1}{\PYZsh{}create n (=number of iterations) samples of random vecotors of noInputs size containing only [0,1]}
+                \PY{k}{return} \PY{n}{np}\PY{o}{.}\PY{n}{random}\PY{o}{.}\PY{n}{randint}\PY{p}{(}\PY{l+m+mi}{2}\PY{p}{,} \PY{n}{size}\PY{o}{=}\PY{p}{(}\PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{noIterations}\PY{p}{,} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{NoInputs}\PY{p}{)}\PY{p}{)}
+            \PY{k}{def} \PY{n+nf}{o\PYZus{}train}\PY{p}{(}\PY{n+nb+bp}{self}\PY{p}{,}\PY{n}{x}\PY{p}{)}\PY{p}{:}
+                \PY{n}{o} \PY{o}{=} \PY{n}{x}\PY{p}{[}\PY{p}{:}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{]}\PY{o}{\PYZca{}}\PY{n}{x}\PY{p}{[}\PY{p}{:}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{]} \PY{c+c1}{\PYZsh{}XOR function}
+                \PY{c+c1}{\PYZsh{}here it only works with 1\PYZhy{}dim output}
+                \PY{k}{return} \PY{n}{o}\PY{p}{[}\PY{p}{:}\PY{p}{,}\PY{n}{np}\PY{o}{.}\PY{n}{newaxis}\PY{p}{]}
+\end{Verbatim}
+
+
+    \subsection{Task 6 Train an MLP on the XOR (1 point -
+programming)}\label{task-6-train-an-mlp-on-the-xor-1-point---programming}
+
+Train a Multi-Layer-Perceptron on the logical "xor"-function. Do 10.000
+iterations and plot the evolution of the error. You don't need to
+implement a stopping criterion. Use the logistic function.
+
+Set the learning rate to \(\eta=1\).
+
+Investigate the following steps:
+
+\begin{enumerate}
+\def\labelenumi{\alph{enumi})}
+\item
+  The network should consist of two layers, where the first has the two
+  input neurons and the second only one output neuron. Does it always
+  converge?
+\item
+  The network should consist of two layers, where the first has the
+  three input neurons and the second only one output neuron. Does it now
+  always converge?
+\end{enumerate}
+
+What can we learn from this?
+
+If you haven't succeeded with task 5, you can import Exercise2helperPy36
+or Exercise2helperPy27 (depending on your python version 3.6 or 2.7).
+The syntax of the contained MLP class is:
+\emph{NeuralNetwork=MLP(NoInputs,ListNoNeuronsPerLayer)} for
+initialization and \emph{errors=NeuralNetwork.train(NoIterations,x, o
+,learnrate)} for training. \(x\) and \(o\) can either be functions as
+defined in task 5 or arrays of samples. If they are functions, \(x\) has
+to produce a random array of inputs of size {[}NoInputs,{]} and \(o(x)\)
+has to produce the corresponding target function output. If they are
+samples they have to have the shape
+\emph{x.shape={[}NoIterations,NoInputs{]}} and
+\emph{o.shape={[}NoIterations,NoOutputs{]}}.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}9}]:} \PY{n}{NeuralNetwork} \PY{o}{=} \PY{n}{MLP}\PY{p}{(}\PY{l+m+mi}{2}\PY{p}{,} \PY{p}{[}\PY{l+m+mi}{2}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{]}\PY{p}{)} \PY{c+c1}{\PYZsh{}2 input nodes, and 1 output node. Does not always converge}
+        
+        
+        \PY{n}{errors}\PY{o}{=}\PY{n}{NeuralNetwork}\PY{o}{.}\PY{n}{train}\PY{p}{(}\PY{l+m+mi}{10000}\PY{p}{,}\PY{n}{NeuralNetwork}\PY{o}{.}\PY{n}{x\PYZus{}train}\PY{p}{,}\PY{n}{NeuralNetwork}\PY{o}{.}\PY{n}{o\PYZus{}train}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{)} 
+        \PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{errors}\PY{p}{)}
+        \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{0, 0}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+        \PY{n+nb}{print}\PY{p}{(}\PY{n}{NeuralNetwork}\PY{o}{.}\PY{n}{out}\PY{p}{(}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)}\PY{p}{)}
+        \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{0, 1}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+        \PY{n+nb}{print}\PY{p}{(}\PY{n}{NeuralNetwork}\PY{o}{.}\PY{n}{out}\PY{p}{(}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{]}\PY{p}{)}\PY{p}{)}
+        \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{1, 0}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+        \PY{n+nb}{print}\PY{p}{(}\PY{n}{NeuralNetwork}\PY{o}{.}\PY{n}{out}\PY{p}{(}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)}\PY{p}{)}
+        \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{1, 1}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+        \PY{n+nb}{print}\PY{p}{(}\PY{n}{NeuralNetwork}\PY{o}{.}\PY{n}{out}\PY{p}{(}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{]}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+0, 0
+[0.02313718]
+0, 1
+[0.97260865]
+1, 0
+[0.97259471]
+1, 1
+[0.02728191]
+
+    \end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_18_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}10}]:} \PY{n}{NeuralNetwork} \PY{o}{=} \PY{n}{MLP}\PY{p}{(}\PY{l+m+mi}{2}\PY{p}{,} \PY{p}{[}\PY{l+m+mi}{3}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{]}\PY{p}{)} \PY{c+c1}{\PYZsh{}3 input nodes, and 1 output node. Always converge}
+         \PY{n}{errors}\PY{o}{=}\PY{n}{NeuralNetwork}\PY{o}{.}\PY{n}{train}\PY{p}{(}\PY{l+m+mi}{10000}\PY{p}{,}\PY{n}{NeuralNetwork}\PY{o}{.}\PY{n}{x\PYZus{}train}\PY{p}{,}\PY{n}{NeuralNetwork}\PY{o}{.}\PY{n}{o\PYZus{}train}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{)} 
+         \PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{errors}\PY{p}{)}
+\end{Verbatim}
+
+
+\begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}10}]:} [<matplotlib.lines.Line2D at 0x7f2998af1390>]
+\end{Verbatim}
+            
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_19_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \section{What can we learn from
+this?}\label{what-can-we-learn-from-this}
+
+the neural network with three input nodes is more stable than the
+network with 2 input nodes. it is always learning the XOR function with
+training. in the two input nodes case exists the possibility of a bad
+(random) initialization of the weights, and the neurons are not able to
+learn the XOR function in that case.
+
+
+    % Add a bibliography block to the postdoc
+    
+    
+    
+    \end{document}

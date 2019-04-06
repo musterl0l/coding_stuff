@@ -1,0 +1,192 @@
+
+# coding: utf-8
+
+# In[5]:
+
+
+import matplotlib
+matplotlib.use("TkAgg")
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2TkAgg
+from matplotlib.figure import Figure
+
+import matplotlib.animation as animation
+import matplotlib.pyplot as plt
+import numpy as np
+
+
+import tkinter as tk
+from tkinter import ttk
+
+
+# In[6]:
+
+
+def create():
+    
+    def f(x, y):
+        return np.sin(x) + np.cos(y)
+    x = np.linspace(0, 2 * np.pi, 120)
+    y = np.linspace(0, 2 * np.pi, 100).reshape(-1, 1)
+    # ims is a list of lists, each row is a list of artists to draw in the
+    # current frame; here we are just animating one artist, the image, in
+    # each frame
+    ims = []
+    for i in range(60):
+        x += np.pi / 15.
+        y += np.pi / 20.
+        im = a.imshow(f(x, y), animated=True)
+        ims.append([im])
+    return ims
+
+
+# In[ ]:
+
+
+LARGE_FONT= ("Verdana", 12)
+
+
+fig = Figure(figsize=(5,5), dpi=100)
+a = fig.add_subplot(111)
+
+class bciApp(tk.Tk):
+
+    def __init__(self, *args, **kwargs):
+        
+        tk.Tk.__init__(self, *args, **kwargs)
+
+        #tk.Tk.iconbitmap(self, default="clienticon.ico")
+        tk.Tk.wm_title(self, "BCI project")
+        
+        
+        container = tk.Frame(self)
+        container.pack(side="top", fill="both", expand = True)
+        container.grid_rowconfigure(0, weight=1)
+        container.grid_columnconfigure(0, weight=1)
+
+        self.frames = {}
+
+        for F in (StartPage, PageOne, PageTwo, PageThree, PageFour):
+
+            frame = F(container, self)
+
+            self.frames[F] = frame
+
+            frame.grid(row=0, column=0, sticky="nsew")
+
+        self.show_frame(StartPage)
+
+    def show_frame(self, cont):
+
+        frame = self.frames[cont]
+        frame.tkraise()
+
+        
+class StartPage(tk.Frame):
+
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self,parent)
+        label = tk.Label(self, text="Start Page", font=LARGE_FONT)
+        label.pack(pady=10,padx=10)
+
+        button = ttk.Button(self, text="Input frames",
+                            command=lambda: controller.show_frame(PageOne))
+        button.pack()
+
+        button2 = ttk.Button(self, text="Neural Network",
+                            command=lambda: controller.show_frame(PageTwo))
+        button2.pack()
+
+        button3 = ttk.Button(self, text="Brain model",
+                            command=lambda: controller.show_frame(PageThree))
+        button3.pack()
+        
+        button3 = ttk.Button(self, text="EEG signal",
+                            command=lambda: controller.show_frame(PageFour))
+        button3.pack()
+
+
+class PageOne(tk.Frame):
+
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self, parent)
+        label = tk.Label(self, text="Input data", font=LARGE_FONT)
+        label.pack(pady=10,padx=10)
+
+        button1 = ttk.Button(self, text="Back to Home",
+                            command=lambda: controller.show_frame(StartPage))
+        button1.pack()
+
+        button2 = ttk.Button(self, text="Next",
+                            command=lambda: controller.show_frame(PageTwo))
+        button2.pack()
+
+
+class PageTwo(tk.Frame):
+
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self, parent)
+        label = tk.Label(self, text="Neural Network", font=LARGE_FONT)
+        label.pack(pady=10,padx=10)
+
+        button1 = ttk.Button(self, text="Back to Home",
+                            command=lambda: controller.show_frame(StartPage))
+        button1.pack()
+
+        button2 = ttk.Button(self, text="Next",
+                            command=lambda: controller.show_frame(PageThree))
+        button2.pack()
+
+
+class PageThree(tk.Frame):
+
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self, parent)
+        label = tk.Label(self, text="brain model", font=LARGE_FONT)
+        label.pack(pady=10,padx=10)
+
+        button1 = ttk.Button(self, text="Back to Home",
+                            command=lambda: controller.show_frame(StartPage))
+        button1.pack()
+        
+        button2 = ttk.Button(self, text="Next",
+                            command=lambda: controller.show_frame(PageFour))
+        button2.pack()
+
+
+        f = Figure(figsize=(5,5), dpi=100)
+        a = f.add_subplot(111)
+        a.plot([1,2,3,4,5,6,7,8],[5,6,1,3,8,9,3,5])
+  
+        canvas = FigureCanvasTkAgg(f, self)
+        canvas.show()
+        canvas.get_tk_widget().pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
+
+        toolbar = NavigationToolbar2TkAgg(canvas, self)
+        toolbar.update()
+        canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
+
+class PageFour(tk.Frame):
+
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self, parent)
+        label = tk.Label(self, text="EEG data", font=LARGE_FONT)
+        label.pack(pady=10,padx=10)
+
+        button1 = ttk.Button(self, text="Back to Home",
+                            command=lambda: controller.show_frame(StartPage))
+        button1.pack()
+
+       
+
+        canvas = FigureCanvasTkAgg(fig, self)
+        canvas.show()
+        canvas.get_tk_widget().pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
+
+        toolbar = NavigationToolbar2TkAgg(canvas, self)
+        toolbar.update()
+        canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)        
+
+app = bciApp()
+ani = animation.ArtistAnimation(fig, create(), interval=50, blit=True,repeat_delay=1000)
+app.mainloop()
+
